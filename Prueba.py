@@ -4,9 +4,9 @@ import GPS
 import time
 
 global longi
-longi = 10.98017#GPS.Longitude()
+longi = -74.81540#GPS.Longitude()
 global lat
-lat = -74.81540#GPS.Latitude()
+lat = 10.98017#GPS.Latitude()
 
 def main(page: Page):
     global longi
