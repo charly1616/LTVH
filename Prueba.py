@@ -51,10 +51,10 @@ def main(page: Page):
         page.controls[0].controls.insert(1,mp)
         page.update()
 
-    d = Container(content=FilledButton(text=">"),on_click=lambda _: moveMap(tutu=36))
-    a = Container(content=FilledButton(text="<"),on_click=lambda _: moveMap(tutu=-36))
-    s = Container(content=FilledButton(text="↑"),on_click=lambda _: moveMap(lala=36))
-    w = Container(content=FilledButton(text="↓"),on_click=lambda _: moveMap(lala=-36))
+    d = Container(content=FilledButton(text=">",on_click=lambda _: moveMap(tutu=36)))
+    a = Container(content=FilledButton(text="<",on_click=lambda _: moveMap(tutu=-36)))
+    s = Container(content=FilledButton(text="↑",on_click=lambda _: moveMap(lala=36)))
+    w = Container(content=FilledButton(text="↓",on_click=lambda _: moveMap(lala=-36)))
     move = Row(controls=[a,w,s,d])
     page.add(Column(scroll='auto',controls=[move,map_view]))
 
