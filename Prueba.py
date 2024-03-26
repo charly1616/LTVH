@@ -4,20 +4,22 @@ import GPS
 import time
 
 global longi
-longi = -74.81540#GPS.Longitude()
 global lat
+longi = -74.81540#GPS.Longitude()
 lat = 10.98017#GPS.Latitude()
+initial_zoom = 19
+Length = 800
+MapN = 5
 
 def main(page: Page):
     global longi
     global lat
+    global MapN
     page.title = "Olga No Trabaja"
-    initial_zoom = 5
-    MapN = 10
 
     map_view = FletMap(
-            height=800,
-            width=800,
+            height=Length,
+            width=Length,
             expand=False,
             latitude=lat,
             longtitude=longi,
@@ -38,11 +40,11 @@ def main(page: Page):
             lat = lat+lala if lat+lala < 360 else lat-360+lala
         else:
             lat = lat+lala if lat+lala > -360 else lat+360+lala
-        initial_zoom += zoom_change
+        if initial_zoom + zoom_change < 20 and initial_zoom + zoom_change > 0: initial_zoom += zoom_change
         print(longi)
         mp = FletMap(
-            height=800,
-            width=800,
+            height=Length,
+            width=Length,
             expand=False,
             latitude=lat,
             longtitude=longi,
@@ -51,16 +53,23 @@ def main(page: Page):
         )
         page.controls[0].controls.pop()
         page.controls[0].controls.insert(1,mp)
+        print('Zoom: ', initial_zoom)
         page.update()
 
-    d = Container(content=FilledButton(text=">",on_click=lambda _: moveMap(tutu=36)))
-    a = Container(content=FilledButton(text="<",on_click=lambda _: moveMap(tutu=-36)))
-    s = Container(content=FilledButton(text="↑",on_click=lambda _: moveMap(lala=36)))
-    w = Container(content=FilledButton(text="↓",on_click=lambda _: moveMap(lala=-36)))
-    zoom_in = Container(content=FilledButton(text="+",on_click=lambda _: moveMap(zoom_change=1)))
-    zoom_out = Container(content=FilledButton(text="-",on_click=lambda _: moveMap(zoom_change=-1)))
+    move_right = FilledButton(text=">",on_click=lambda _: moveMap(tutu=360/(2**initial_zoom)))
+    move_left = FilledButton(text="<",on_click=lambda _: moveMap(tutu=-360/(2**initial_zoom)))
+    move_down = FilledButton(text="↑",on_click=lambda _: moveMap(lala=360/(2**initial_zoom)))
+    move_up = FilledButton(text="↓",on_click=lambda _: moveMap(lala=-360/(2**initial_zoom)))
+    zoom_in = FilledButton(text="+",on_click=lambda _: moveMap(zoom_change=1))
+    zoom_out = FilledButton(text="-",on_click=lambda _: moveMap(zoom_change=-1))
+
+    up_and_down = Column(controls=[move_down,move_up])
+    directions = Row(controls=[move_left,up_and_down,move_right])
+
+    zooms = Row(controls = [zoom_in,zoom_out])
     
-    move = Row(controls=[a,w,s,d,zoom_in,zoom_out])
+    
+    move = Row(width= Length,alignment=MainAxisAlignment.SPACE_BETWEEN,controls=[directions,zooms])
     page.add(Column(scroll='auto',controls=[move,map_view]))
 
 
