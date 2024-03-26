@@ -82,19 +82,20 @@ class NavegableMap(Container):
         )
 
         #La creacion de las flechas y los botones de zoom
-        move_right = FilledButton(text=">",on_click=lambda _: self._moveMap(tutu=360/(2**self.iniZoom)))
-        move_left = FilledButton(text="<",on_click=lambda _: self._moveMap(tutu=-360/(2**self.iniZoom)))
-        move_down = FilledButton(text="↑",on_click=lambda _: self._moveMap(lala=360/(2**self.iniZoom)))
-        move_up = FilledButton(text="↓",on_click=lambda _: self._moveMap(lala=-360/(2**self.iniZoom)))
-        zoom_in = FilledButton(text="+",on_click=lambda _: self._moveMap(zoom_change=1))
-        zoom_out = FilledButton(text="-",on_click=lambda _: self._moveMap(zoom_change=-1))
+        move_right = IconButton(height=50,icon=icons.ARROW_RIGHT,on_click=lambda _: self._moveMap(tutu=360/(2**self.iniZoom)))
+        move_left = IconButton(height=50,icon=icons.ARROW_LEFT,on_click=lambda _: self._moveMap(tutu=-360/(2**self.iniZoom)))
+        move_up = IconButton(height=35 ,icon=icons.ARROW_DROP_DOWN_SHARP,on_click=lambda _: self._moveMap(lala=-360/(2**self.iniZoom)))
+        move_down = IconButton(height=35 ,icon=icons.ARROW_DROP_UP_SHARP,on_click=lambda _: self._moveMap(lala=360/(2**self.iniZoom)))
+        zoom_in = IconButton(height=50,icon=icons.ZOOM_IN_ROUNDED,on_click=lambda _: self._moveMap(zoom_change=1))
+        zoom_out = IconButton(height=50,icon=icons.ZOOM_OUT_ROUNDED,on_click=lambda _: self._moveMap(zoom_change=-1))
         up_and_down = Column(spacing=0,controls=[move_down,move_up]) #El boton de arriba y abajo unidos
         directions = Row(spacing=0,controls=[move_left,up_and_down,move_right]) #Boton de direcciones unido
 
         zooms = Row(spacing=0,controls = [zoom_in,zoom_out]) #Union de los dos zoom
         
         move = Row(width= self.width,alignment=MainAxisAlignment.SPACE_BETWEEN,controls=[directions,zooms])#Union de los zoom y las direcciones, expandidos
-        self.content = Column(controls=[move,self.map_view]) #Contenido del componente
+        self.content = Column(spacing=0,controls=[move,self.map_view]) #Contenido del componente
+        self.bgcolor = 'red'
         pass
 
 
