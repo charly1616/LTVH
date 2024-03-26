@@ -26,9 +26,10 @@ def main(page: Page):
         )
 
 
-    def moveMap(tutu = 0,lala = 0):
+    def moveMap(tutu = 0,lala = 0, zoom_change=0):
         global longi
         global lat
+        global initial_zoom
         if tutu > 0:
             longi = longi+tutu if longi+tutu < 360 else longi-360+tutu
         else:
@@ -37,6 +38,7 @@ def main(page: Page):
             lat = lat+lala if lat+lala < 360 else lat-360+lala
         else:
             lat = lat+lala if lat+lala > -360 else lat+360+lala
+        initial_zoom += zoom_change
         print(longi)
         mp = FletMap(
             height=800,
@@ -55,7 +57,10 @@ def main(page: Page):
     a = Container(content=FilledButton(text="<",on_click=lambda _: moveMap(tutu=-36)))
     s = Container(content=FilledButton(text="↑",on_click=lambda _: moveMap(lala=36)))
     w = Container(content=FilledButton(text="↓",on_click=lambda _: moveMap(lala=-36)))
-    move = Row(controls=[a,w,s,d])
+    zoom_in = Container(content=FilledButton(text="+",on_click=lambda _: moveMap(zoom_change=1)))
+    zoom_out = Container(content=FilledButton(text="-",on_click=lambda _: moveMap(zoom_change=-1)))
+    
+    move = Row(controls=[a,w,s,d,zoom_in,zoom_out])
     page.add(Column(scroll='auto',controls=[move,map_view]))
 
 
