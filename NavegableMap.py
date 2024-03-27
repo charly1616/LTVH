@@ -18,8 +18,8 @@ class NavegableMap(Container):
             width:int = 600,
             height:int = 600,
             iniZoom:int = 6,
-            iniLat:float = 10,
-            iniLong:float = -70,
+            iniLat:float = 10.98017,
+            iniLong:float = -74.81540,
             #COMPONENTES GENERALES QUE NO HAY QUE TOCAR
             ref: Optional[Ref] = None,
             expand: Union[None, bool, int] = None,
