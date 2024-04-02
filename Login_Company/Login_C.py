@@ -19,6 +19,7 @@ def main(page: ft.page):
                         width=360,
                         size=30,
                         weight="W900",
+                        color='BLACK',
                         text_align="center",
                         font_family='Times New Roman'
                         
@@ -82,7 +83,7 @@ def main(page: ft.page):
                 alignment=ft.MainAxisAlignment.SPACE_EVENLY,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
                 ),
-                bgcolor=ft.colors.BLUE,
+                bgcolor=ft.colors.GREEN_400,
                 expand=True,
             ),
             ft.Container(
@@ -104,7 +105,7 @@ def main(page: ft.page):
                 alignment=ft.MainAxisAlignment.SPACE_EVENLY,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
                 ),
-                bgcolor=ft.colors.CYAN,
+                bgcolor=ft.colors.WHITE70,
                 expand=True,
                 border_radius=ft.BorderRadius(
                     top_left=100,
@@ -120,7 +121,7 @@ def main(page: ft.page):
         alignment=ft.alignment.center,
         width=900,
         height=600,
-        bgcolor=ft.colors.BLUE,
+        bgcolor=ft.colors.GREEN_400,
         border_radius=40
     )
 
@@ -132,7 +133,7 @@ def main(page: ft.page):
                     ft.Text(
                         "Bienvenido",
                         size=40,
-                        font_family="Times new ROman",
+                        font_family="Times new Roman",
                         color="black"
                     ),
                     ft.Container(
@@ -146,7 +147,7 @@ def main(page: ft.page):
                 alignment=ft.MainAxisAlignment.SPACE_EVENLY,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
                 ),
-                bgcolor=ft.colors.CYAN,
+                bgcolor=ft.colors.WHITE70,
                 expand=True,
                 border_radius=ft.BorderRadius(
                     top_left=0,
@@ -163,6 +164,7 @@ def main(page: ft.page):
                         width=360,
                         size=30,
                         weight="w900",
+                        color='BLACK',
                         text_align="center",
                         font_family='Times New Roman'
                     ),
@@ -243,7 +245,7 @@ def main(page: ft.page):
                 alignment=ft.MainAxisAlignment.SPACE_EVENLY,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
                 ),
-                bgcolor=ft.colors.BLUE,
+                bgcolor=ft.colors.GREEN_400,
                 expand=True,
             ),
         ],
@@ -253,7 +255,7 @@ def main(page: ft.page):
         alignment=ft.alignment.center,
         width=900,
         height=600,
-        bgcolor=ft.colors.BLUE,
+        bgcolor=ft.colors.GREEN_400,
         border_radius=40   
     )
     
