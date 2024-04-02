@@ -108,10 +108,10 @@ def main(page: ft.page):
                 bgcolor=ft.colors.WHITE70,
                 expand=True,
                 border_radius=ft.BorderRadius(
-                    top_left=100,
-                    top_right=0,
-                    bottom_left=100,
-                    bottom_right=0,
+                    topLeft=15,
+                    topRight=0,
+                    bottomLeft=15,
+                    bottomRight=0,
                 )
             ),   
         ],
@@ -150,10 +150,10 @@ def main(page: ft.page):
                 bgcolor=ft.colors.WHITE70,
                 expand=True,
                 border_radius=ft.BorderRadius(
-                    top_left=0,
-                    top_right=100,
-                    bottom_left=0,
-                    bottom_right=100,
+                    topLeft=0,
+                    topRight=15,
+                    bottomLeft=0,
+                    bottomRight=15,
                 )
             ),
             
