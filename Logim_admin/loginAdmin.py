@@ -16,7 +16,7 @@ def main(page: ft.page):
                 ft.Column([
                     ft.Text(
                         "Iniciar Sesión",
-                        size=50,  # Aumentar el tamaño del texto para computadora
+                        size=40,  # Aumentar el tamaño del texto para computadora
                         weight="W900",
                         text_align="center"
                     ),
@@ -80,20 +80,21 @@ def main(page: ft.page):
                 alignment=ft.MainAxisAlignment.SPACE_EVENLY,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
                 ),
-                bgcolor=ft.colors.PURPLE,
+                bgcolor=ft.colors.BLUE_900,
                 expand=True,
             ),
             ft.Container(
                 ft.Column([
                     ft.Text(
                         "Administrador",
-                        size=50,
-                        font_family="Georgia"
+                        size=40,
+                        color="black",
+                        font_family="Times new Roman"
                     ),
                     ft.Container(
                         ft.Image(
                             src="logo3.png",
-                            width=300,  # Ajustar el ancho de la imagen
+                            width=500,  # Ajustar el ancho de la imagen
                         ),
                         padding=ft.padding.only(20, 20)
                     ),
@@ -101,7 +102,7 @@ def main(page: ft.page):
                 alignment=ft.MainAxisAlignment.SPACE_EVENLY,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
                 ),
-                bgcolor=ft.colors.CYAN,
+                bgcolor=ft.colors.WHITE10,
                 expand=True,
                 border_radius=ft.BorderRadius(
                     top_left=100,
@@ -117,7 +118,7 @@ def main(page: ft.page):
         alignment=ft.alignment.center,
         width=1000,  # Ajustar el ancho del contenedor principal
         height=600,  # Ajustar la altura del contenedor principal
-        bgcolor=ft.colors.PURPLE,
+        bgcolor=ft.colors.WHITE,
         border_radius=40
     )
 
@@ -127,7 +128,8 @@ def main(page: ft.page):
                 ft.Column([
                     ft.Text(
                         "Bienvenido",
-                        size=50,
+                        size=40,
+                        color='BLACK',
                         font_family="georgia",
                     ),
                     ft.Container(
@@ -141,7 +143,7 @@ def main(page: ft.page):
                 alignment=ft.MainAxisAlignment.SPACE_EVENLY,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
                 ),
-                bgcolor=ft.colors.PURPLE,
+                bgcolor=ft.colors.WHITE,
                 expand=True,
                 border_radius=ft.BorderRadius(
                     top_left=0,
@@ -155,8 +157,8 @@ def main(page: ft.page):
                 ft.Column([
                     ft.Text(
                         "Crear cuenta",
-                        size=50,
-                        font_family="georgia",
+                        size=40,
+                        font_family="Times new Roman",
                     ),
                     ft.Container(
                         ft.TextField(
@@ -237,7 +239,7 @@ def main(page: ft.page):
                 alignment=ft.MainAxisAlignment.SPACE_EVENLY,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
                 ),
-                bgcolor=ft.colors.CYAN,
+                bgcolor=ft.colors.BLUE_900,
                 expand=True,
             ),
         ],
@@ -247,7 +249,7 @@ def main(page: ft.page):
         alignment=ft.alignment.center,
         width=1000,
         height=600,
-        bgcolor=ft.colors.CYAN,
+        bgcolor=ft.colors.BLUE_900,
         border_radius=40   
     )
     
