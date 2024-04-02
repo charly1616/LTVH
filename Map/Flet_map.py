@@ -119,6 +119,7 @@ class FletMap(Container):
             for ytile in range(ymin,  ymax+self.screenView[1]):
                 try:
                     imgurl = smurl.format(self.zoom, xtile if xtile < 2**self.zoom else xtile - 2**self.zoom, ytile if ytile < 2**self.zoom else ytile-2**self.zoom)
+                    #print(str(xtile if xtile < 2**self.zoom else xtile - 2**self.zoom)," - ",str(ytile))
                     self.__col.controls.append(
                         Stack(controls=[Image(height=self.height/self.screenView[0],width=self.width/self.screenView[1],src=imgurl),
                                         Text(value=str(xtile if xtile < 2**self.zoom else xtile - 2**self.zoom)+" - "+str(ytile),size = 10)]))
@@ -141,8 +142,8 @@ class FletMap(Container):
         xtile = int((lon_deg + 180.0) / 360.0 * n)
         
         logPar = math.tan( lat_rad) + (1 / math.cos(lat_rad))
-        print('LatRad  ', lat_deg)
-        print('DATO QUE JODE   ',logPar)
+        #print('LatRad  ', lat_deg)
+        #print('DATO QUE JODE   ',logPar)
         ytile = int((1.0 - math.log(abs(logPar)) / math.pi) / 2.0 * n)
         return (xtile, ytile)
  
