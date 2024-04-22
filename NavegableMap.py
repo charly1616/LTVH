@@ -1,7 +1,8 @@
 from typing import Any, Optional, Union
 from flet import *
 from Flet_map import FletMap
-import GPS
+import flet.canvas as cv
+from GPS import GPS as g
 import time
 from flet_core.types import (
     AnimationValue,
@@ -11,6 +12,8 @@ from flet_core.types import (
     ScaleValue,
 )
 
+points = [[153234, 246072, 16,18]]
+
 class NavegableMap(Container):
     def __init__(
             self,
@@ -18,8 +21,10 @@ class NavegableMap(Container):
             width:int = 600,
             height:int = 600,
             iniZoom:int = 6,
-            iniLat:float = 10.98017,
-            iniLong:float = -74.81540,
+            iniLat:float = 10,
+            iniLong:float = -74,
+            WhiteBg: bool = True,
+            MenuCol: str = 'red',
             #COMPONENTES GENERALES QUE NO HAY QUE TOCAR
             ref: Optional[Ref] = None,
             expand: Union[None, bool, int] = None,
@@ -63,12 +68,14 @@ class NavegableMap(Container):
             disabled=disabled,
             data=data,
         )
-        self.MapN = 5
-        self.height = height
-        self.width = width
+        self.MapN = 4
+        self.height = height + 73
+        self.width = width + 3
         self.iniZoom = iniZoom
         self.iniLat = iniLat
         self.iniLong = iniLong
+        self.WhiteBg = WhiteBg
+        self.MenuCol = MenuCol
 
         #Mapa inicial
         self.map_view = FletMap(
@@ -90,14 +97,30 @@ class NavegableMap(Container):
         zoom_out = IconButton(height=50,icon=icons.ZOOM_OUT_ROUNDED,on_click=lambda _: self._moveMap(zoom_change=-1))
         up_and_down = Column(spacing=0,controls=[move_down,move_up]) #El boton de arriba y abajo unidos
         directions = Row(spacing=0,controls=[move_left,up_and_down,move_right]) #Boton de direcciones unido
-
+        ubication = IconButton(height=50,icon=icons.ZOOM_OUT_ROUNDED,on_click=lambda _: self.changePosition(g.Longitude(),g.Latitude()))
         zooms = Row(spacing=0,controls = [zoom_in,zoom_out]) #Union de los dos zoom
         
-        move = Row(width= self.width,alignment=MainAxisAlignment.SPACE_BETWEEN,controls=[directions,zooms])#Union de los zoom y las direcciones, expandidos
-        self.content = Column(spacing=0,controls=[move,self.map_view]) #Contenido del componente
-        self.bgcolor = 'red'
+        move = Container(bgcolor=self.MenuCol,
+                         content = Row(width= self.width,alignment=MainAxisAlignment.SPACE_BETWEEN,controls=[directions,ubication,zooms]))#Union de los zoom y las direcciones, expandidos
+        self.content = Column(width=200,spacing=0,controls=[move,self.map_view]) #Contenido del componente
+        self.bgcolor = 'white' if self.WhiteBg else 'red'
         pass
 
+    def changePosition(self, lo,la):
+        self.iniLong = lo
+        self.iniLat = la
+        mp = FletMap(
+            height=self.width,
+            width=self.width,
+            expand=False,
+            latitude=self.iniLat,
+            longtitude=self.iniLong,
+            zoom=self.iniZoom ,
+            screenView=[self.MapN, self.MapN]
+        )
+        self.content.controls.pop()
+        self.content.controls.insert(1,mp)
+        self.update() #ACTUALIZA EL COMPONENTE
 
     #Funcion que mueve el mapa y le hace zoom
     def _moveMap(self,tutu = 0  ,lala = 0  , zoom_change=0):
@@ -128,7 +151,36 @@ class NavegableMap(Container):
 
 def main(page: Page):
     page.title = "Olga No Trabaja"
-    nav = NavegableMap(width=800,height=800,iniZoom=19)
+    nav =  Container(
+        content=Column(
+            controls = [
+                NavegableMap(width=800,height=800,iniZoom=19),
+                Container(
+                        content=cv.Canvas(shapes = [
+                        cv.Path(
+                            [
+                                cv.Path.MoveTo(25, 25),
+                                cv.Path.LineTo(105, 25),
+                                cv.Path.LineTo(25, 105),
+                            ],
+                            paint=Paint(
+                                style=PaintingStyle.FILL,
+                            ),
+                        ),
+                        cv.Path(
+                            [
+                                cv.Path.MoveTo(125, 125),
+                                cv.Path.LineTo(125, 45),
+                                cv.Path.LineTo(45, 125),
+                                cv.Path.Close(),
+                            ],
+                            paint=Paint(
+                                stroke_width=2,
+                                style=PaintingStyle.STROKE,
+                        ),
+                    ),]
+            ,width=600,height=600) ) ]
+                    ))
     page.add(nav)
 
 app(target=main)

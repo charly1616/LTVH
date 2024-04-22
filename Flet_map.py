@@ -5,6 +5,7 @@ from flet_core import alignment
 import flet_core as ft
 from flet_core.container import Container
 from flet_core.control import OptionalNumber
+import flet.canvas as cv
 from flet_core import control
 from flet_core.image import Image
 from flet_core.ref import Ref
@@ -18,12 +19,16 @@ from flet_core.types import (
     ScaleValue,
 )
  
- 
+
+points = [[153234,246072,100,16],[153235,246072,16,16],[153234,246073,16,16],[153235,246073,16,16],[153187,246054,110,20],[153227,246121,40,170],[152067,248212,100,100]]
+
+
 class FletMap(Container):
     def __init__(
         self,
         height: int = 200,
         width: int = 200,
+        NoNumbers: bool = False,
         ref: Optional[Ref] = None,
         expand: Union[None, bool, int] = None,
         col: Optional[ResponsiveNumber] = None,
@@ -91,6 +96,8 @@ class FletMap(Container):
         self.transparent = transparent
         self.height = height
         self.width = width
+        self.__canvas = cv.Canvas(shapes=[],width=self.width,height=self.height)
+        self.NoNumbers = NoNumbers
  
     def _is_isolated(self):
         return self.__isolated
@@ -105,28 +112,42 @@ class FletMap(Container):
 
 
     def _get_image_cluster(self):
+        self.__canvas.shapes=[]
         index = 0
         smurl = r"http://tile.openstreetmap.org/{0}/{1}/{2}.png"
- 
+        
+        shapies = []
         xmin, ymax = self.deg2num(self.latitude, self.longtitude, self.zoom)
-        xmax, ymin = self.deg2num(
-            self.latitude + self.delta_lat, self.longtitude + self.delta_long, self.zoom)
-        self.__row = Row(spacing=0, auto_scroll=True)
- 
+        xmax, ymin = self.deg2num(self.latitude + self.delta_lat, self.longtitude + self.delta_long, self.zoom)
+        self.__row = Row(spacing=1, auto_scroll=True)
+        ex,uy = 0,0 #GridPosition for canvas
         for xtile in range(xmin, xmax+self.screenView[0]):
-            self.__col = Column(spacing=0, auto_scroll=True)
-            xtile
+            self.__col = Column(spacing=1, auto_scroll=True)
+            uy=0
             for ytile in range(ymin,  ymax+self.screenView[1]):
+
                 try:
                     imgurl = smurl.format(self.zoom, xtile if xtile < 2**self.zoom else xtile - 2**self.zoom, ytile if ytile < 2**self.zoom else ytile-2**self.zoom)
                     #print(str(xtile if xtile < 2**self.zoom else xtile - 2**self.zoom)," - ",str(ytile))
+                    pow=2**(19-self.zoom)
+                    for a in points:
+                        if int(a[0]/pow) == xtile and int(a[1]/pow) == ytile:
+                            xboxpercent = self.width/self.screenView[1] * (a[0]/pow - int(a[0]/pow))
+                            yboxpercent = self.height/self.screenView[0] * (a[1]/pow - int(a[1]/pow))
+                            shapies.append(cv.Circle(int(ex*self.width/4 + a[2]/pow + xboxpercent), int(uy*self.height/4 + a[3]/pow + yboxpercent), 5, Paint(style=ft.PaintingStyle.FILL)))
+                            #print(int(ex*self.width/4 + a[2]), int(uy*self.height/4 + a[3]),ex,uy)
                     self.__col.controls.append(
-                        Stack(controls=[Image(height=self.height/self.screenView[0],width=self.width/self.screenView[1],src=imgurl),
-                                        Text(value=str(xtile if xtile < 2**self.zoom else xtile - 2**self.zoom)+" - "+str(ytile),size = 10)]))
+                        Stack(controls=[Image(height=self.height/self.screenView[0] ,width=self.width/self.screenView[1],src=imgurl),
+                                        Text(value= ' ' if self.NoNumbers else (str(xtile if xtile < 2**self.zoom else xtile - 2**self.zoom)+" - "+str(ytile)) ,size = 10)]))
                 except:
                     print("Couldn't download image")
+                uy+=1
             self.__row.controls.append(self.__col)
-        self.content = self.__row
+            ex+=1
+        #print()
+        #print(shapies)
+        self.__canvas.shapes = shapies
+        self.content = Stack(controls=[self.__row,self.__canvas])
  
     def _before_build_command(self):
         super()._before_build_command()

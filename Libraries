@@ -1,0 +1,4 @@
+sqlalchemy
+flet
+geocoder
+psycopg2
