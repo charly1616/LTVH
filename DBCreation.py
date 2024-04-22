@@ -1,11 +1,10 @@
-
+import os
 import psycopg2
 from psycopg2 import Error
 
 conectionString = "postgresql://charly1616:3saw59-hTh8ZeR4-BIc9zQ@transport-db-13923.7tt.aws-us-east-1.cockroachlabs.cloud:26257/TRANSPORT_DataBase?sslmode=verify-full"
 
-def newPerson():
-    pass
+
 
 def create_table():
     try:
