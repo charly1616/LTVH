@@ -1,16 +1,35 @@
 import flet as ft
 
-registros = []  # Vector para almacenar los registros
+# Función para guardar los registros en un archivo
+def guardar_registros(registros):
+    with open("registros.txt", "w") as file:
+        for registro in registros:
+            file.write(",".join(registro) + "\n")
+
+
+def cargar_registros():
+    registros = []
+    try:
+        with open("registros.txt", "r") as file:
+            for line in file:
+                registros.append(line.strip().split(","))
+    except FileNotFoundError:
+        pass  # Si el archivo no existe, no hay registros para cargar
+    return registros
+
 
 def guardar_registro():
     datos_registro = []
     for campo in campos_texto:
-        datos_registro.append(campo.value)  # Usar el atributo 'value' en lugar de 'text'
+        datos_registro.append(campo.value)
     registros.append(datos_registro)
-    print("Registros:", registros)
+    guardar_registros(registros)
+    print("Registro guardado:", datos_registro)
 
+# Función principal
 def main(page: ft.Page):
-    global campos_texto
+    global campos_texto, registros
+    registros = cargar_registros()  # Cargar registros existentes al iniciar la aplicación
     page.window_width = 450
     page.window_height = 600
     page.padding = 0
@@ -48,9 +67,9 @@ def main(page: ft.Page):
     contenedor = ft.Container(
         ft.Column(
             [
-                campo_nombre,
-                campo_correo,
-                campo_contraseña,
+                campo_nombre  ,
+                campo_correo  ,
+                campo_contraseña  ,
                 ft.ElevatedButton(
                     content=ft.Text(
                         'Guardar Registro',
