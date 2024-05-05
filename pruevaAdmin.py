@@ -14,7 +14,6 @@ def guardar_registro():
 def inicio_sesion():
     datos_sesion = []
     for campo in campos_sesion:
-        campo_real = campo.content.children[0]
         datos_sesion.append(campo.value)
     sesiones.append(datos_sesion)
     print("Inicios de sesión:", sesiones)
