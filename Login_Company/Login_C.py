@@ -1,10 +1,93 @@
 import flet as ft
 
+# Vectores para almacenar los registros y los inicios de sesión
+registros = []
+sesiones = []
+
+# Función para guardar los registros en un archivo
+def guardar_registros():
+    with open("registrosadmin.txt", "w") as file:
+        for registro in registros:
+            file.write(",".join(registro) + "\n")
+
+def guardar_registro():
+    datos_registro = []
+    for campo in campos_registro:
+        datos_registro.append(campo.content.value)
+    registros.append(datos_registro)
+    guardar_registros()
+    print("Registro guardado:", datos_registro)
+    
+def inicio_sesion():
+    datos_sesion = []
+    for campo in campos_sesion:
+        datos_sesion.append(campo.content.value)
+    sesiones.append(datos_sesion)
+    print("Inicios de sesión:", sesiones)
+
+
 def main(page: ft.page):
+    global campos_registro
+    global campos_sesion
     page.padding = 0
     page.bgcolor = ft.colors.BLACK
     page.vertical_alignment = "center"
     page.horizontal_alignment = "center"
+    
+    campo_nombre = ft.Container(
+       ft.TextField(
+           width=400,
+           height=60,
+           hint_text="Nombre",
+           border="underline",
+           color="black",
+           prefix_icon= ft.icons.PERM_CONTACT_CAL,
+           ),
+           padding=ft.padding.only(20, 10)
+    )
+    
+    campo_correo = ft.Container(
+       ft.TextField(
+          width=400,
+          height=60,
+          hint_text="Correo electrónico",
+          border="underline",
+          color="white",
+          prefix_icon=ft.icons.EMAIL
+        ),
+        padding=ft.padding.only(20, 10)
+   )
+                 
+    campo_contraseña = ft.Container(
+       ft.TextField(
+          width=400,
+          height=60,
+          hint_text="Contraseña",
+          border="underline",
+          color="white",
+          prefix_icon=ft.icons.LOCK,
+          password=True,
+        ),
+        padding=ft.padding.only(20, 10)
+    )
+    
+    campo_confcontraseña = ft.Container(
+       ft.TextField(
+           width=400,
+           height=60,
+           hint_text="Confirmar contraseña",
+           border="underline",
+           color="black",
+           prefix_icon= ft.icons.LOCK,
+           password=True,
+        ),
+        padding=ft.padding.only(20, 10)
+    )
+    
+    campos_sesion = [campo_correo, campo_contraseña]
+    campos_registro = [campo_nombre, campo_correo, campo_contraseña, campo_confcontraseña]
+    
+    
     
     def animate(e):
         c.content = c2 if c.content == c1 else c1
@@ -24,29 +107,10 @@ def main(page: ft.page):
                         font_family='Times New Roman'
                         
                     ),
-                    ft.Container(
-                        ft.TextField(
-                            width=280,
-                            height=40,
-                            hint_text="Correo electronico",
-                            border="underline",
-                            color="white",
-                            prefix_icon=ft.icons.EMAIL
-                        ),
-                        padding=ft.padding.only(20,10)
-                    ),
-                    ft.Container(
-                        ft.TextField(
-                            width=280,
-                            height=40,
-                            hint_text="Contraseña",
-                            border="underline",
-                            color="white",
-                            prefix_icon=ft.icons.LOCK,
-                            password=True,
-                        ),
-                        padding=ft.padding.only(20,10)
-                    ),
+                    
+                    campo_correo,
+                    campo_contraseña,
+                    
                     ft.Container(
                         ft.Checkbox(
                             label="Recordar contraseña",
@@ -63,6 +127,7 @@ def main(page: ft.page):
                             ),
                            width=280,
                            bgcolor="black",
+                           on_click=lambda e: inicio_sesion(),
                         ),
                         padding=ft.padding.only(25,10)
                     ),
@@ -168,53 +233,11 @@ def main(page: ft.page):
                         text_align="center",
                         font_family='Times New Roman'
                     ),
-                    ft.Container(
-                        ft.TextField(
-                            width=280,
-                            height=40,
-                            hint_text="Nombre",
-                            border="underline",
-                            color="black",
-                            prefix_icon= ft.icons.PERM_CONTACT_CAL,
-                        ),
-                        padding=ft.padding.only(20,10)
-                    ),
-                    ft.Container(
-                        ft.TextField(
-                            width=280,
-                            height=40,
-                            hint_text="Correo elctronico",
-                            border="underline",
-                            color="black",
-                            prefix_icon= ft.icons.EMAIL,
-                        ),
-                        padding=ft.padding.only(20,10)                        
-                    ),
-                    ft.Container(
-                        ft.TextField(
-                            width=280,
-                            height=40,
-                            hint_text="Contraseña",
-                            border="underline",
-                            color="black",
-                            prefix_icon= ft.icons.LOCK,
-                            password=True,
-                        ),
-                        padding=ft.padding.only(20,10)
-                    ),
                     
-                       ft.Container(
-                        ft.TextField(
-                            width=280,
-                            height=40,
-                            hint_text="Confirmar contraseña",
-                            border="underline",
-                            color="black",
-                            prefix_icon= ft.icons.LOCK,
-                            password=True,
-                        ),
-                        padding=ft.padding.only(20,10)
-                    ),
+                    campo_nombre,
+                    campo_correo,
+                    campo_contraseña,
+                    campo_confcontraseña,
                     
                     ft.Container(
                         ft.ElevatedButton(
@@ -225,6 +248,7 @@ def main(page: ft.page):
                             ),
                             width=200,
                             bgcolor="black",
+                            on_click=lambda e: guardar_registro(),
                         ),
                         padding=ft.padding.only(25,10)
                     ),
