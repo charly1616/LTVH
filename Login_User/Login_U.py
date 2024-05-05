@@ -1,9 +1,11 @@
 import flet as ft
 
+registros_c2 = []
+
 def main(page: ft.Page):
     # Ajustar el tamaño de la ventana para que coincida con el menú y aumentar en 200 píxeles la altura
     page.window_width = 450
-    page.window_height = 820 # 520 es el tamaño original del menú
+    page.window_height = 820  # 520 es el tamaño original del menú
     page.padding = 0
     page.vertical_alignment = "center"
     page.horizontal_alignment = "center"
@@ -20,6 +22,18 @@ def main(page: ft.Page):
                     for inner_control in control.controls:
                         if isinstance(inner_control, ft.TextField):
                             inner_control.text = ''
+
+    def iniciar_sesion():
+        datos_c2 = []
+        for control in c2.content.controls:
+            if isinstance(control, ft.Container):
+                for inner_control in control.controls:
+                    if isinstance(inner_control, ft.TextField):
+                        datos_c2.append(inner_control.text)
+        # Guardar los datos ingresados en c2 en el vector
+        registros_c2.append(datos_c2)
+        # Imprimir los registros almacenados para verificar
+        print("Registros de c2:", registros_c2)
 
     c1 = ft.Container(
         ft.Row([
@@ -98,7 +112,7 @@ def main(page: ft.Page):
                 ],
                     alignment=ft.MainAxisAlignment.SPACE_EVENLY,
                 ),
-                gradient=ft.LinearGradient(['blue', 'black']),
+                gradient=ft.LinearGradient(['blue', 'cyan']),
                 width=380,
                 height=760,
                 border_radius=20
@@ -109,7 +123,6 @@ def main(page: ft.Page):
         padding=10,
     )
 
-    # Definición de c2, similar a c1 pero con campos adicionales
     c2 = ft.Container(
         ft.Row([
             ft.Container(
@@ -165,7 +178,7 @@ def main(page: ft.Page):
                         ft.TextField(
                             width=280,
                             height=40,
-                            hint_text='Confirmar contraseña',
+                            hint_text='Contraseña',
                             border='underline',
                             color='white',
                             prefix_icon=ft.icons.LOCK,
@@ -177,7 +190,7 @@ def main(page: ft.Page):
                         ft.TextField(
                             width=280,
                             height=40,
-                            hint_text='Contraseña',
+                            hint_text='Confirmar contraseña',
                             border='underline',
                             color='white',
                             prefix_icon=ft.icons.LOCK,
@@ -225,7 +238,7 @@ def main(page: ft.Page):
                             ),
                             width=280,
                             bgcolor='black',
-                            on_click=lambda e: clear_text_fields(),  # Llamar a la función clear_text_fields al hacer clic en el botón "Registrarse"
+                            on_click=lambda e: iniciar_sesion(),  # Llamar a la función iniciar_sesion al hacer clic en el botón "Registrarse"
                         ),
                         padding=ft.padding.only(25, 10)
                     ),
@@ -244,7 +257,7 @@ def main(page: ft.Page):
                 ],
                     alignment=ft.MainAxisAlignment.SPACE_EVENLY,
                 ),
-                gradient=ft.LinearGradient(['black', 'blue']),
+                gradient=ft.LinearGradient(['cyan', 'blue']),
                 width=380,
                 height=760,
                 border_radius=20
@@ -263,6 +276,8 @@ def main(page: ft.Page):
         switch_in_curve=ft.AnimationCurve.DECELERATE,
         switch_out_curve=ft.AnimationCurve.EASE,
     )
+
     page.add(c)
+
 
 ft.app(target=main)
