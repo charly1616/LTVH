@@ -4,17 +4,24 @@ import flet as ft
 registros = []
 sesiones = []
 
+# Función para guardar los registros en un archivo
+def guardar_registros():
+    with open("registrosadmin.txt", "w") as file:
+        for registro in registros:
+            file.write(",".join(registro) + "\n")
+
 def guardar_registro():
     datos_registro = []
     for campo in campos_registro:
-        datos_registro.append(campo.value)
+        datos_registro.append(campo.content.value)
     registros.append(datos_registro)
-    print("Registros:", registros)
+    guardar_registros()
+    print("Registro guardado:", datos_registro)
     
 def inicio_sesion():
     datos_sesion = []
     for campo in campos_sesion:
-        datos_sesion.append(campo.value)
+        datos_sesion.append(campo.content.value)
     sesiones.append(datos_sesion)
     print("Inicios de sesión:", sesiones)
 
